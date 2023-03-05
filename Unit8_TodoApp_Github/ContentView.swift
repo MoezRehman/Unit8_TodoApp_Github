@@ -16,8 +16,11 @@ struct ContentView: View {
     Todo(title: "Rehab - Prototype", isCompleted: true)]
     
     var body: some View {
-        List(todos, id: \.id) { todo in
-            Text(todo.title)
+        NavigationStack {
+            List(todos) { todo in
+                Text(todo.title)
+            }
+            .navigationTitle("Todos")
         }
     }
 }
