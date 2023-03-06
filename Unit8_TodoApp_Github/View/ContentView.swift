@@ -10,14 +10,8 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var todoManager = TodoManager()
-    
-//    @State var todos = [
-//        Todo(title: "Complete Unit 8"),
-//        Todo(title: "Complete Unit 9", isCompleted: false),
-//        Todo(title: "Unit 10"),
-//        Todo(title: "Rehab - Prototype", subTitle: "to test idea with OT", isCompleted: true)]
-    
     @State var showAddSheet = false
+    @State var showConfirmationAlert = false
     
     var body: some View {
         NavigationStack {
@@ -29,16 +23,28 @@ struct ContentView: View {
                 ToolbarItem(placement: .navigationBarLeading){
                     EditButton()
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItemGroup {
+                    Button{
+                        showConfirmationAlert = true
+                    } label: {
+                        Image(systemName: "list.bullet.clipboard.fill")
+                    }
+                    
                     Button {
                         showAddSheet = true
                     } label: {
                         Image(systemName: "plus")
                     }
+                    
                 }
             }
             .sheet(isPresented: $showAddSheet){
                 NewTodoView(sourceTodos: $todoManager.todos)
+            }
+            .alert("Load Sample Data? Warning: This cannot be undone", isPresented: $showConfirmationAlert){
+                Button("Replace", role: .destructive) {
+                    todoManager.loadSampleData()
+                }
             }
         }
     }
