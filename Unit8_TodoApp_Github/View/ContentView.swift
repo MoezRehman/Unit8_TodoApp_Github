@@ -9,17 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var todos = [
-        Todo(title: "Complete Unit 8"),
-        Todo(title: "Complete Unit 9", isCompleted: false),
-        Todo(title: "Unit 10"),
-        Todo(title: "Rehab - Prototype", subTitle: "to test idea with OT", isCompleted: true)]
+    @StateObject var todoManager = TodoManager()
+    
+//    @State var todos = [
+//        Todo(title: "Complete Unit 8"),
+//        Todo(title: "Complete Unit 9", isCompleted: false),
+//        Todo(title: "Unit 10"),
+//        Todo(title: "Rehab - Prototype", subTitle: "to test idea with OT", isCompleted: true)]
     
     @State var showAddSheet = false
     
     var body: some View {
         NavigationStack {
-            List($todos, editActions: [.all]) { $todo in
+            List($todoManager.todos, editActions: [.all]) { $todo in
                 TodoRowView(todo: $todo)
             }
             .navigationTitle("Todos")
@@ -36,7 +38,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showAddSheet){
-                NewTodoView(sourceTodos: $todos)
+                NewTodoView(sourceTodos: $todoManager.todos)
             }
         }
     }
