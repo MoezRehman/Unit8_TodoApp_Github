@@ -8,13 +8,29 @@
 import SwiftUI
 
 struct HowManyMoreView: View {
+    
+    @ObservedObject var todoManager: TodoManager
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("You have:")
+                .font(.largeTitle)
+            Text("\(todoManager.numTodosLeft)")
+                .font(.system(size: 140))
+                .foregroundColor(.accentColor)
+                .padding()
+            Text("Todos left:")
+                .font(.largeTitle)
+            Text("You have completed \(todoManager.numTodosDone) todos. Good Job.")
+                .padding()
+            
+        }
+        
     }
 }
 
 struct HowManyMoreView_Previews: PreviewProvider {
     static var previews: some View {
-        HowManyMoreView()
+        HowManyMoreView(todoManager: TodoManager())
     }
 }
